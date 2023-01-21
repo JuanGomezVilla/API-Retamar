@@ -1,4 +1,4 @@
-<h1><img width="50px" src="https://retamar.com/wp-content/uploads/2020/12/cropped-escarapela_capas_300.png"> Retamar API <img src="https://img.shields.io/badge/version-v1.0.0-blue.svg"></h1>
+<img width="50px" style="float:left;margin-right:10px;" src="https://retamar.com/wp-content/uploads/2020/12/cropped-escarapela_capas_300.png"><h1 style="margin-top:5px;margin-bottom:5px;vertical-align: middle;">Retamar API <img src="https://img.shields.io/badge/version-v1.0.0-blue.svg"></h1>
 
 API que devuelve los datos en JSON de las valoraciones de los alumnos con respecto a las asignaturas que imparten los profesores. Dicha API está enfocada para devolver informes en formato JSON y que el usuario tenga la posibilidad de integrarlos en cualquier tipo de aplicación.
 
