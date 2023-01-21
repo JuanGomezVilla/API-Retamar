@@ -97,6 +97,34 @@ Ejemplo: `localhost/api/obtenerProfesores.php?formatear=true&id=3&asignaturas=7&
 }
 ```
 
+## Obtener datos de los alumnos
+Dirección: _obtenerAlumnos.php_
+
+Datos de los alumnos, id, ciclo que está cursando, y cantidad de valoraciones realizadas
+
+| Argumentos | Tipo de valor | Ejemplo | Descripción |
+| -------------------------- | --------------- | --------- | ------------ |
+| formatear | booleano | _true_ | Estructura el JSON |
+| id | cadena | _14_ | Clave única y principal del alumno |
+| ciclo | cadena | _DAM2_ | Siglas del ciclo |
+| valoracionesRealizadas | entero | 3 | Cantidad de valoraciones realizadas |
+
+
+Ejemplo: `localhost/api/get/obtenerAlumnos.php?formatear=true&ciclo=DAM1&valoracionesRealizadas=3`
+```json
+{
+    "estado": "OK",
+    "datos": [
+        {
+            "id": 3,
+            "nombre": "Persona 3",
+            "ciclo": "DAM1",
+            "valoracionesRealizadas": 3
+        }
+    ]
+}
+```
+
 ## Obtener valoraciones
 Dirección: _obtenerValoraciones.php_
 
