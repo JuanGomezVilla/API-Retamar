@@ -1,0 +1,14 @@
+table, tr, td, th {
+    border: 1px solid black;
+    font: 16px Arial;
+    border-collapse: collapse;
+}
+
+td, th {
+    padding: 10px;
+}
+
+th {
+    font-weight: bold;
+    background-color: #ffde9d;
+}

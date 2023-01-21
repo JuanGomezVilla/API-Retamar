@@ -57,7 +57,7 @@ function obtenerValorGET($texto){
     $valor = null;
 
     //Comprueba si el valor existe en el GET, y en ese caso, la variable 'valor' recibe el dato del GET
-    if(isset($_GET[$texto])) $valor = $_GET[$texto];
+    if(isset($_GET[$texto])) $valor = $_GET[$texto] == null ? null : $_GET[$texto];
 
     //Devuelve la variable 'valor'
     return $valor;

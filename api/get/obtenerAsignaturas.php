@@ -16,19 +16,14 @@ if($conexion == null){
 $formatear = capturarFormateo();
 
 //Obtiene los valores del GET y los procesa
-$id = obtenerValorGET("id");
-$ciclo = obtenerValorGET("ciclo");
-$valoracionesRealizadas = obtenerValorGET("valoracionesRealizadas");
+$tipo = obtenerValorGET("tipo");
+$curso = obtenerValorGET("curso");
+$siglas = obtenerValorGET("siglas");
 
 //Realizar una consulta
 $filas = realizarQuery(
     $conexion,
-    "CALL obtenerAlumnos(:id, :ciclo, :valoracionesRealizadas);",
-    array(
-        ":id" => $id,
-        ":ciclo" => $ciclo,
-        ":valoracionesRealizadas" => $valoracionesRealizadas
-    )
+    "SELECT * FROM asignaturas"
 );
 
 //Devolver el JSON codificado del resultado

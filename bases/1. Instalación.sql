@@ -113,7 +113,7 @@ DELIMITER ;
 
 -- Obtener datos de los alumnos
 DELIMITER $$
-CREATE OR REPLACE PROCEDURE obtenerDatosAlumnos(
+CREATE OR REPLACE PROCEDURE obtenerAlumnos(
     paramID INT,
     paramCiclo VARCHAR(50),
     paramValoracionesRealizadas INT
@@ -124,6 +124,19 @@ SELECT id, nombre, ciclo,
 FROM alumnos a WHERE (paramID IS NULL OR id = paramID) AND
     (paramCiclo IS NULL OR ciclo = paramCiclo) HAVING
     (paramValoracionesRealizadas IS NULL OR valoracionesRealizadas = paramValoracionesRealizadas);
+END $$
+DELIMITER ;
+
+-- Obtener asignaturas
+DELIMITER $$
+CREATE OR REPLACE PROCEDURE obtenerAsignaturas(
+    paramID INT,
+    paramCiclo VARCHAR(50),
+    paramIDprofesor INT
+)
+BEGIN
+SELECT id, nombre, ciclo, id_profesor FROM asignaturas WHERE (paramID IS NULL OR id = paramID) AND
+    (paramCiclo IS NULL OR ciclo = paramCiclo);
 END $$
 DELIMITER ;
 

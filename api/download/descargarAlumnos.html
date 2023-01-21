@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Descargar alumnos</title>
+        <meta charset="UTF-8">
+        <meta name="google" content="notranslate">
+        <script src="RequestJSON.js"></script>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+
+        <table id="tablaAlumnos"></table>
+
+        <script>
+
+            var tablaAlumnos, alumnos;
+
+            window.onload = function(){
+                tablaAlumnos = document.getElementById("tablaAlumnos");
+                var datos = getJSON(
+                    "http://localhost/ejercicios/Ejercicio%20Entornos/api/get/obtenerAlumnos.php",
+                    (datos) => {
+                        var contenido = JSON.parse(datos);
+                        if(contenido.estado = "OK"){
+                            alumnos = contenido.datos;
+                            var resultado = "<tr><th>ID</th><th>Nombre</th><th>Ciclo</th><th>Valoraciones realizadas</th></tr>";
+                            alumnos.forEach(alumno => {
+                                resultado += `<tr><td>${alumno.id}</td><td>${alumno.nombre}</td><td>${alumno.ciclo}</td><td>${alumno.valoracionesRealizadas}</td></tr>`;
+                            });
+                            tablaAlumnos.innerHTML = resultado;
+                        }
+                    }
+                );
+            }
+            
+        </script>
+
+    </body>
+</html>
