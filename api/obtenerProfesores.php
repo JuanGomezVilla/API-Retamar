@@ -17,21 +17,17 @@ $formatear = capturarFormateo();
 
 //Obtiene los valores del GET y los procesa
 $id = obtenerValorGET("id");
-$nombre = obtenerValorGET("nombre");
 $asignaturas = obtenerValorGET("asignaturas");
+$considerarNulo = obtenerValorGET("considerarNulo");
 
 //Realizar una consulta
 $filas = realizarQuery(
     $conexion,
-    "SELECT id, nombre,
-        (SELECT COUNT(*) FROM asignaturas a WHERE a.id_profesor=p.id) as asignaturas
-    FROM profesores p WHERE (:id IS NULL OR id=:id) AND
-        (:nombre IS NULL OR nombre=:nombre) HAVING
-        (:asignaturas IS NULL OR asignaturas=:asignaturas)",
+    "CALL obtenerProfesores(:id, :asignaturas, :considerarNulo)",
     array(
         ":id" => $id,
-        ":nombre" => $nombre,
-        ":asignaturas" => $asignaturas 
+        ":asignaturas" => $asignaturas,
+        ":considerarNulo" => $considerarNulo === "true" ? true : false
     )
 );
 

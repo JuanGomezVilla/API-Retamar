@@ -20,16 +20,18 @@ $id = obtenerValorGET("id");
 $idalumno = obtenerValorGET("idalumno");
 $idasignatura = obtenerValorGET("idasignatura");
 $idprofesor = obtenerValorGET("idprofesor");
+$nota = obtenerValorGET("nota");
 
 //Realizar una consulta
 $filas = realizarQuery(
     $conexion,
-    "CALL obtenerValoraciones(:id, :idalumno, :idasignatura, :idprofesor)",
+    "CALL obtenerValoraciones(:id, :idalumno, :idasignatura, :idprofesor, :nota)",
     array(
         ":id" => $id,
         ":idalumno" => $idalumno,
         ":idasignatura" => $idasignatura,
-        ":idprofesor" => $idprofesor
+        ":idprofesor" => $idprofesor,
+        ":nota" => $nota
     )
 );
 

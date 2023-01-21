@@ -16,7 +16,7 @@ API que devuelve los datos en JSON de las valoraciones de los alumnos con respec
 
 **Nota:** en caso de errores, actualizar tanto PHP como la versión de phpMyAdmin y MySQL a la última versión. El proyecto utiliza PDO y los comandos para un servidor MySQL.
 
-<br>
+
 ## Primeros pasos
  - La API, cuando esté disponible, devolverá un objeto en formato JSON del estado actual de la base, para que el usuario pueda verificar previamente si esta se encuentra caída. En caso de que no existan errores, habrá otro objeto con clave _datos_:
   - **Error:** `{"estado":"ERROR"}`
@@ -26,7 +26,7 @@ API que devuelve los datos en JSON de las valoraciones de los alumnos con respec
  - Existen procedimientos almacenados dentro de la base de datos
  - Para crear una nueva ventana de la API, utilizar la plantilla (archivo _plantilla.php_) y seguir las instrucciones que se encuentran en el interior del archivo.
 
-<br>
+
 ## Procedimientos almacenados en la base de datos
 Los comando se ejecutan con _CALL_ seguido del nombre del procedimiento y entre paréntesis los argumentos (Ejemplo: _CALL asignarProfesorAsignatura(11, 35);_ al profesor con id 11 se le da la asignatura con id 35)
 
@@ -34,7 +34,7 @@ Los comando se ejecutan con _CALL_ seguido del nombre del procedimiento y entre 
 | --------- | ----------------------- | ------------ |
 | asignarProfesorAsignatura | IDprofesor, IDasignatura | Da  una asignatura a un profesor |
 
-<br>
+
 ## Obtener datos de los ciclos
 Dirección: _obtenerCiclos.php_
 
@@ -68,26 +68,30 @@ Ejemplo: `localhost/api/obtenerCiclos.php?formatear=true&siglas=DAM2&tipo=CFGS`
 }
 ```
 
-<br>
+
 ## Obtener datos de los profesores
 Dirección: _obtenerProfesores.php_
+
+Si no existiesen valoraciones para el profesor, el valor de media es null (no se puede considerar 0 por que no es un valor real)
 
 | Argumentos | Tipo de valor | Ejemplo | Descripción |
 | -------------------------- | --------------- | --------- | ------------ |
 | formatear | booleano | _true_ | Estructura el JSON |
 | id | cadena | _14_ | Clave única y principal del profesor |
-| nombre | cadena | _Pedro_ | Nombre del profesor |
 | asignaturas | entero | _1_ | Cantidad de asignaturas que imparte |
+| considerarNulo | boolean | _true_ | Si la media fuera un valor nulo, devuelve null o 0 |
 
-Ejemplo: `localhost/api/obtenerProfesores.php?formatear=true&nombre=Pedro&id=14`
+
+Ejemplo: `localhost/api/obtenerProfesores.php?formatear=true&id=3&asignaturas=7&considerarNulo=true`
 ```json
 {
     "estado": "OK",
     "datos": [
         {
-            "id": 14,
-            "nombre": "Pedro",
-            "asignaturas": 0
+            "id": 3,
+            "nombre": "Profesor 3",
+            "asignaturas": 7,
+            "media": "0.0000"
         }
     ]
 }
@@ -103,32 +107,24 @@ Dirección: _obtenerValoraciones.php_
 | idalumno | cadena | _Pedro_ | Nombre del profesor |
 | idasignatura | entero | _1_ | Clave de la asignatura |
 | idprofesor | entero | _1_ | Clave del profesor |
+| nota | entero | _4_ | Nota recibida |
 
-paramID INT,
-    paramIDalumno INT,
-    paramIDasignatura INT,
-    paramIDprofesor INT
 
-Ejemplo: `localhost/api/obtenerValoraciones.php?formatear=true&idprofesor=11&id=7`
+Ejemplo: `localhost/api/obtenerValoraciones.php?formatear=true&idalumno=1&idprofesor=1&nota=4`
 ```json
 {
-   {
     "estado": "OK",
     "datos": [
         {
-            "id": 7,
-            "id_alumno": 3,
-            "id_asignatura": 35,
-            "id_profesor": 11,
-            "nombre_alumno": "Persona 3",
-            "nombre_asignatura": "Inglés técnico para grado superior",
-            "nombre_profesor": "Ciro Medina",
-            "nota1": 4,
-            "nota2": 3,
-            "nota3": 2,
-            "media": "3.0000"
+            "id": 1,
+            "id_alumno": 1,
+            "id_asignatura": 1,
+            "id_profesor": 1,
+            "nombre_alumno": "Persona 1",
+            "nombre_asignatura": "Comunicación y atención al cliente",
+            "nombre_profesor": "Profesor 1",
+            "nota": 4
         }
     ]
-}
 }
 ```
