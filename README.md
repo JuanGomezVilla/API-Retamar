@@ -16,7 +16,7 @@ API que devuelve los datos en JSON de las valoraciones de los alumnos con respec
 
 **Nota:** en caso de errores, actualizar tanto PHP como la versión de phpMyAdmin y MySQL a la última versión. El proyecto utiliza PDO y los comandos para un servidor MySQL.
 
-<br>
+<br/>
 ## Primeros pasos
  - La API, cuando esté disponible, devolverá un objeto en formato JSON del estado actual de la base, para que el usuario pueda verificar previamente si esta se encuentra caída. En caso de que no existan errores, habrá otro objeto con clave _datos_:
   - **Error:** `{"estado":"ERROR"}`
@@ -26,7 +26,7 @@ API que devuelve los datos en JSON de las valoraciones de los alumnos con respec
  - Existen procedimientos almacenados dentro de la base de datos
  - Para crear una nueva ventana de la API, utilizar la plantilla (archivo _plantilla.php_) y seguir las instrucciones que se encuentran en el interior del archivo.
 
-<br>
+<br/>
 ## Procedimientos almacenados en la base de datos
 Los comando se ejecutan con _CALL_ seguido del nombre del procedimiento y entre paréntesis los argumentos (Ejemplo: _CALL asignarProfesorAsignatura(11, 35);_ al profesor con id 11 se le da la asignatura con id 35)
 
@@ -34,7 +34,7 @@ Los comando se ejecutan con _CALL_ seguido del nombre del procedimiento y entre 
 | --------- | ----------------------- | ------------ |
 | asignarProfesorAsignatura | IDprofesor, IDasignatura | Da  una asignatura a un profesor |
 
-<br>
+<br/>
 ## Obtener datos de los ciclos
 Dirección: _obtenerCiclos.php_
 
@@ -68,7 +68,7 @@ Ejemplo: `localhost/api/obtenerCiclos.php?formatear=true&siglas=DAM2&tipo=CFGS`
 }
 ```
 
-<br>
+<br/>
 ## Obtener datos de los profesores
 Dirección: _obtenerProfesores.php_
 
