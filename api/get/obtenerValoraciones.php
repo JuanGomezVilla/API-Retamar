@@ -1,7 +1,7 @@
 <?php
 
 //IMPORTACIÓN DE LIBRERÍAS DEFINIDAS
-require("Utils.php");
+require("../Utils.php");
 
 //Obtener la conexión
 $conexion = iniciarConexion();

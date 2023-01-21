@@ -1,7 +1,7 @@
 <?php
 
 //IMPORTACIÓN DE LIBRERÍAS DEFINIDAS
-require("Utils.php");
+require("../Utils.php");
 
 //Obtener la conexión
 $conexion = iniciarConexion();
@@ -49,4 +49,3 @@ codificarJSON(array("estado" => "OK", "datos" => $filas), $formatear);
 $conexion = null;
 
 ?>
-

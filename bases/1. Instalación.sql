@@ -98,7 +98,8 @@ SELECT v.id, id_alumno, id_asignatura, p.id as id_profesor,
     a.nombre as nombre_alumno,
     asi.nombre as nombre_asignatura,
     p.nombre as nombre_profesor,
-    nota
+    nota,
+    fecha
 FROM valoraciones v INNER JOIN alumnos a ON a.id = v.id_alumno
     INNER JOIN asignaturas asi ON asi.id = id_asignatura
     INNER JOIN profesores p ON p.id = id_profesor or p.id IS NULL
@@ -107,5 +108,34 @@ FROM valoraciones v INNER JOIN alumnos a ON a.id = v.id_alumno
         (paramIDasignatura IS NULL OR id_asignatura=paramIDasignatura) AND
         (paramIDprofesor IS NULL OR id_profesor=paramIDprofesor) AND
         (paramNota IS NULL OR nota=paramNota);
+END $$
+DELIMITER ;
+
+-- Obtener datos de los alumnos
+DELIMITER $$
+CREATE OR REPLACE PROCEDURE obtenerDatosAlumnos(
+    paramID INT,
+    paramCiclo VARCHAR(50),
+    paramValoracionesRealizadas INT
+)
+BEGIN
+SELECT id, nombre, ciclo,
+    (SELECT COUNT(*) FROM valoraciones WHERE id_alumno=a.id) as valoracionesRealizadas
+FROM alumnos a WHERE (paramID IS NULL OR id = paramID) AND
+    (paramCiclo IS NULL OR ciclo = paramCiclo) HAVING
+    (paramValoracionesRealizadas IS NULL OR valoracionesRealizadas = paramValoracionesRealizadas);
+END $$
+DELIMITER ;
+
+-- Obtener información general
+DELIMITER $$
+CREATE OR REPLACE PROCEDURE obtenerDatosGenerales()
+BEGIN
+SELECT AVG(nota) as mediaTotal,
+    (SELECT COUNT(*) FROM profesores) AS profesores,
+    (SELECT COUNT(*) FROM alumnos) AS alumnos,
+    (SELECT COUNT(*) FROM ciclos) AS ciclos,
+    (SELECT COUNT(*) FROM asignaturas) AS asignaturas
+FROM valoraciones;
 END $$
 DELIMITER ;
