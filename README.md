@@ -36,7 +36,7 @@ Los comando se ejecutan con _CALL_ seguido del nombre del procedimiento y entre 
 
 
 ## Obtener datos de los ciclos
-Dirección: _obtenerCiclos.php_
+Dirección: _api/get/obtenerCiclos.php_
 
 | Argumentos | Tipo de valor | Ejemplo | Descripción |
 | -------------------------- | --------------- | --------- | ------------ |
@@ -70,7 +70,7 @@ Ejemplo: `localhost/api/obtenerCiclos.php?formatear=true&siglas=DAM2&tipo=CFGS`
 
 
 ## Obtener datos de los profesores
-Dirección: _obtenerProfesores.php_
+Dirección: _api/get/obtenerProfesores.php_
 
 Si no existiesen valoraciones para el profesor, el valor de media es null (no se puede considerar 0 por que no es un valor real)
 
@@ -98,7 +98,7 @@ Ejemplo: `localhost/api/obtenerProfesores.php?formatear=true&id=3&asignaturas=7&
 ```
 
 ## Obtener datos de los alumnos
-Dirección: _obtenerAlumnos.php_
+Dirección: _api/get/obtenerAlumnos.php_
 
 Datos de los alumnos, id, ciclo que está cursando, y cantidad de valoraciones realizadas
 
@@ -126,7 +126,7 @@ Ejemplo: `localhost/api/get/obtenerAlumnos.php?formatear=true&ciclo=DAM1&valorac
 ```
 
 ## Obtener valoraciones
-Dirección: _obtenerValoraciones.php_
+Dirección: _api/get/obtenerValoraciones.php_
 
 | Argumentos | Tipo de valor | Ejemplo | Descripción |
 | -------------------------- | --------------- | --------- | ------------ |
