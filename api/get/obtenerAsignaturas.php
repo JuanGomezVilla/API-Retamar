@@ -18,7 +18,7 @@ $formatear = capturarFormateo();
 //Obtiene los valores del GET y los procesa
 $id = obtenerValorGET("id");
 $ciclo = obtenerValorGET("ciclo");
-$idprofesor = obtenerValorGET("idprofesor");
+$idprofesor = obtenerValorGET("id_profesor");
 
 //Realizar una consulta
 $filas = realizarQuery(

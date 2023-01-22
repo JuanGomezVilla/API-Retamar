@@ -25,14 +25,7 @@ $asignaturas = obtenerValorGET("asignaturas");
 //Realizar una consulta
 $filas = realizarQuery(
     $conexion,
-    "SELECT siglas, nombre, curso, tipo,
-        (SELECT COUNT(*) FROM asignaturas WHERE ciclo=siglas) AS asignaturas,
-        (SELECT COUNT(*) FROM alumnos WHERE ciclo=siglas) AS alumnos
-    FROM ciclos WHERE (:tipo IS NULL OR tipo=:tipo) AND
-        (:curso IS NULL OR curso=:curso) AND
-        (:siglas IS NULL OR siglas=:siglas) HAVING
-        (:alumnos IS NULL OR alumnos=:alumnos) AND
-        (:asignaturas IS NULL OR asignaturas=:asignaturas)",
+    "CALL obtenerCiclos(:tipo, :curso, :siglas, :alumnos, :asignaturas);",
     array(
         ":tipo" => $tipo,
         ":curso" => $curso,

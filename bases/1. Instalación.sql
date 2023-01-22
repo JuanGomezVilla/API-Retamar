@@ -38,10 +38,15 @@ CREATE OR REPLACE TABLE valoraciones (
     id_alumno INT, -- ID del alumno que realiza la valoración
     id_asignatura INT, -- ID de la asignatura (no hace falta indicar el profesor porque se relaciona con la asignatura)
     nota INT, -- Nota
-    fecha DATETIME DEFAULT NOW(), -- Fecha en la que se realiza la valoración
+    tiempo INT DEFAULT YEAR(CURRENT_TIMESTAMP), -- Año en la que se realiza la valoración
+    mes INT DEFAULT MONTH(CURRENT_TIMESTAMP), -- Mes
+    dia INT DEFAULT DAY(CURRENT_TIMESTAMP), -- Dia
+    hora INT DEFAULT HOUR(CURRENT_TIMESTAMP), -- Hora
+    minuto INT DEFAULT MINUTE(CURRENT_TIMESTAMP), -- Minuto
     FOREIGN KEY (id_alumno) REFERENCES alumnos(id), -- Clave foránea del alumno
     FOREIGN KEY (id_asignatura) REFERENCES asignaturas(id) -- Clave foránea de la asignatura
 ) ENGINE=InnoDB;
+
 
 -- PROCEDIMIENTOS ALMACENADOS
 
@@ -91,7 +96,12 @@ CREATE OR REPLACE PROCEDURE obtenerValoraciones(
     paramIDalumno INT,
     paramIDasignatura INT,
     paramIDprofesor INT,
-    paramNota INT
+    paramNota INT,
+    paramTiempo INT,
+    paramMes INT,
+    paramDia INT,
+    paramHora INT,
+    paramMinuto INT
 )
 BEGIN
 SELECT v.id, id_alumno, id_asignatura, p.id as id_profesor,
@@ -99,7 +109,7 @@ SELECT v.id, id_alumno, id_asignatura, p.id as id_profesor,
     asi.nombre as nombre_asignatura,
     p.nombre as nombre_profesor,
     nota,
-    fecha
+    tiempo, mes, dia, hora, minuto
 FROM valoraciones v INNER JOIN alumnos a ON a.id = v.id_alumno
     INNER JOIN asignaturas asi ON asi.id = id_asignatura
     INNER JOIN profesores p ON p.id = id_profesor or p.id IS NULL
@@ -107,7 +117,12 @@ FROM valoraciones v INNER JOIN alumnos a ON a.id = v.id_alumno
         (paramIDalumno IS NULL OR id_alumno=paramIDalumno) AND
         (paramIDasignatura IS NULL OR id_asignatura=paramIDasignatura) AND
         (paramIDprofesor IS NULL OR id_profesor=paramIDprofesor) AND
-        (paramNota IS NULL OR nota=paramNota);
+        (paramNota IS NULL OR nota=paramNota) AND
+        (paramTiempo IS NULL OR tiempo=paramTiempo) AND
+        (paramMes IS NULL OR mes=paramMes) AND
+        (paramDia IS NULL OR dia=paramDia) AND
+        (paramHora IS NULL OR hora=paramHora) AND
+        (paramMinuto IS NULL OR minuto=paramMinuto);
 END $$
 DELIMITER ;
 
@@ -151,5 +166,26 @@ SELECT AVG(nota) as mediaTotal,
     (SELECT COUNT(*) FROM ciclos) AS ciclos,
     (SELECT COUNT(*) FROM asignaturas) AS asignaturas
 FROM valoraciones;
+END $$
+DELIMITER ;
+
+-- Obtener información de los ciclos
+DELIMITER $$
+CREATE OR REPLACE PROCEDURE obtenerCiclos(
+    paramTipo VARCHAR(50),
+    paramCurso INT,
+    paramSiglas VARCHAR(50),
+    paramAlumnos INT,
+    paramAsignaturas INT
+)
+BEGIN
+SELECT siglas, nombre, curso, tipo,
+        (SELECT COUNT(*) FROM asignaturas WHERE ciclo=siglas) AS asignaturas,
+        (SELECT COUNT(*) FROM alumnos WHERE ciclo=siglas) AS alumnos
+    FROM ciclos WHERE (paramTipo IS NULL OR tipo=paramTipo) AND
+        (paramCurso IS NULL OR curso=paramCurso) AND
+        (paramSiglas IS NULL OR siglas=paramSiglas) HAVING
+        (paramAlumnos IS NULL OR alumnos=paramAlumnos) AND
+        (paramAsignaturas IS NULL OR asignaturas=paramAsignaturas);
 END $$
 DELIMITER ;
