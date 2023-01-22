@@ -23,11 +23,11 @@ $idprofesor = obtenerValorGET("id_profesor");
 //Realizar una consulta
 $filas = realizarQuery(
     $conexion,
-    "CALL obtenerAsignaturas(:id, :ciclo, :idprofesor)",
+    "CALL obtenerAsignaturas(:id, :ciclo, :id_profesor)",
     array(
         ":id" => $id,
         ":ciclo" => $ciclo,
-        ":idprofesor" => $idprofesor
+        ":id_profesor" => $idprofesor
     )
 );
 

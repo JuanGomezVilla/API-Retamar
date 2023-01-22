@@ -56,7 +56,7 @@ class Utils:
         return Response(Utils.procesar_json(datos, formatear), content_type="application/json; charset=utf-8")
     
     @staticmethod
-    def realizarQuery(texto, argumentos=None):
+    def realizarQuery(texto, argumentos=None, procesar=True):
         argumentoFormatear = request.args.get("formatear", False, bool)
         # Obtiene la conexión y verifica si es correcta
         conexion = Utils.obtener_conexion()
@@ -75,7 +75,10 @@ class Utils:
         # Cierra la conexión, crea un resultado, y lo devuelve formateado
         conexion.close()
         resultado = {"estado": "OK", "datos": resultado_query}
-        return Utils.devolver_JSON(resultado, argumentoFormatear)
+
+        if procesar:
+            return Utils.devolver_JSON(resultado, argumentoFormatear)
+        return resultado
 
 
 # APLICACIÓN SIMPLE
@@ -140,12 +143,33 @@ def obtenerAlumnos():
 @ application.route("/api/get/obtenerProfesores", methods=["GET"])
 def obtenerProfesores():
     # Obtención de argumentos
+    argumentoFormatear = request.args.get("formatear", False, bool)
     argumentoID = request.args.get("id", None, int)
     argumentoAsignaturas = request.args.get("asignaturas", None, int)
     argumentoConsiderarNulo = request.args.get("considerarNulo", False, bool)
+    argumentoContinuar = request.args.get("continuar", None, str)
+
+    if argumentoContinuar == "":
+        argumentoContinuar = None
+    else:
+        if argumentoContinuar == "true":
+            argumentoContinuar = True
+        elif argumentoContinuar == "false":
+            argumentoContinuar = False
+        else:
+            argumentoContinuar = None
+        
+    
 
     # Ejecución del comando
-    return Utils.realizarQuery("CALL obtenerProfesores(%s, %s, %s)", [argumentoID, argumentoAsignaturas, argumentoConsiderarNulo])
+    diccionario = Utils.realizarQuery("CALL obtenerProfesores(%s, %s, %s, %s)",
+    [argumentoID, argumentoAsignaturas, argumentoContinuar, argumentoConsiderarNulo], procesar=False)
+
+    for i in range(len(diccionario["datos"])):
+        valor = diccionario["datos"][i]["continuar"]
+        diccionario["datos"][i]["continuar"] = True if valor == "true" else False
+
+    return Utils.devolver_JSON(diccionario, argumentoFormatear)
 
 
 # OBTENER DATOS DE LAS VALORACIONES

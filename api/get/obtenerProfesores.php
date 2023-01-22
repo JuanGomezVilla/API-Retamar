@@ -18,18 +18,35 @@ $formatear = capturarFormateo();
 //Obtiene los valores del GET y los procesa
 $id = obtenerValorGET("id");
 $asignaturas = obtenerValorGET("asignaturas");
+$continuar = obtenerValorGET("continuar");
 $considerarNulo = obtenerValorGET("considerarNulo");
+
+
+if($continuar != null){
+    if($continuar == "false" || $continuar == "true"){
+        $continuar = ($continuar === "false" ? false : true);
+    } else {
+        $continuar = null;
+    }
+    
+}
 
 //Realizar una consulta
 $filas = realizarQuery(
     $conexion,
-    "CALL obtenerProfesores(:id, :asignaturas, :considerarNulo)",
+    "CALL obtenerProfesores(:id, :asignaturas, :continuar, :considerarNulo)",
     array(
         ":id" => $id,
         ":asignaturas" => $asignaturas,
+        ":continuar" => $continuar,
         ":considerarNulo" => $considerarNulo === "true" ? true : false
     )
 );
+
+for($i=0; $i<count($filas); $i++){
+    $valor = $filas[$i]["continuar"];
+    $filas[$i]["continuar"] = filter_var($valor, FILTER_VALIDATE_BOOLEAN);
+}
 
 //Devolver el JSON codificado del resultado
 codificarJSON(array("estado" => "OK", "datos" => $filas), $formatear);

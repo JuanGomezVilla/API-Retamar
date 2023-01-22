@@ -21,7 +21,8 @@ CREATE OR REPLACE TABLE alumnos (
 
 CREATE OR REPLACE TABLE profesores (
     id INT AUTO_INCREMENT PRIMARY KEY, -- ID del profesor
-    nombre VARCHAR(50) -- Nombre del profesor
+    nombre VARCHAR(50), -- Nombre del profesor
+    continuar BOOLEAN DEFAULT true
 ) ENGINE=InnoDB;
 
 CREATE OR REPLACE TABLE asignaturas (
@@ -63,10 +64,11 @@ DELIMITER $$
 CREATE OR REPLACE PROCEDURE obtenerProfesores(
     paramID INT,
     paramAsignaturas INT,
+    paramContinuar BOOLEAN,
     paramConsiderarNulo BOOLEAN
 )
 BEGIN
-SELECT id, nombre,
+SELECT id, nombre, IF(continuar, "true", "false") AS continuar,
     (
         SELECT COUNT(*)
         FROM asignaturas a
@@ -84,7 +86,8 @@ SELECT id, nombre,
         ), IF(paramConsiderarNulo, NULL, 0)
     ) as media
     FROM profesores p
-    WHERE (paramID IS NULL OR id=paramID) HAVING
+    WHERE (paramID IS NULL OR id=paramID) AND
+        (paramContinuar IS NULL OR continuar=paramContinuar) HAVING
         (paramAsignaturas IS NULL OR asignaturas=paramAsignaturas);
 END $$
 DELIMITER ;
