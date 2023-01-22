@@ -136,7 +136,8 @@ CREATE OR REPLACE PROCEDURE obtenerAsignaturas(
 )
 BEGIN
 SELECT id, nombre, ciclo, id_profesor FROM asignaturas WHERE (paramID IS NULL OR id = paramID) AND
-    (paramCiclo IS NULL OR ciclo = paramCiclo);
+    (paramCiclo IS NULL OR ciclo = paramCiclo) AND
+    (paramIDprofesor IS NULL OR id_profesor = paramIDprofesor);
 END $$
 DELIMITER ;
 
